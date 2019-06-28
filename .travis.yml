@@ -1,0 +1,16 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t rgadeus/docker-multitest -f ./client/Dockerfile.dev ./client
+
+script:
+ - docker run -e CI=true rgadeus/docker-multitest npm run test -- --coverage
+
+after_success:
+  - docker build -t rgadeus/multi-client ./client
+  - docker build -t rgadeus/multi-nginx ./nginx
+  - docker build -t rgadeus/multi-server ./server
+  - docker build -t rgadeus/multi-worker ./worker
+
