@@ -13,4 +13,9 @@ after_success:
   - docker build -t rgadeus/multi-nginx ./nginx
   - docker build -t rgadeus/multi-server ./server
   - docker build -t rgadeus/multi-worker ./worker
-
+  # Login into docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERID" --password-stdin
+  - docker push rgadeus/multi-client
+  - docker push rgadeus/multi-nginx
+  - docker push rgadeus/multi-server
+  - docker push rgadeus/multi-worker
